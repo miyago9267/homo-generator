@@ -1,2 +1,2 @@
-declare const homo = (num: number) => string;
+declare function homo(num: number): string;
 export default homo;
