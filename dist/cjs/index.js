@@ -1,18 +1,23 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
 const homo = (Nums => {
+  // Calculate all available divisors
   const numsReversed = Object.keys(Nums).map(x => +x).filter(x => x > 0);
+
+  // Get the smallest divisor that is less than or equal to the number
   const getMinDiv = num => {
-    for (let i = numsReversed.length; i >= 0; i--) if (num >= numsReversed[i]) return numsReversed[i];
+    for (let i = numsReversed.length; i >= 0; i--) {
+      if (num >= numsReversed[i]) return numsReversed[i];
+    }
   };
+
+  // Regular expression for matching extra zeros after decimal points
   const isDotRegex = /\.(\d+?)0{0,}$/;
+
+  // Decompose the number into an expression
   const demolish = num => {
     if (typeof num !== "number") return "";
-    if (num === Infinity || Number.isNaN(num)) return `這麼惡臭的${num}有必要論證嗎？`;
+    if (num === Infinity || Number.isNaN(num)) return `這麼惡臭的${num}有必要論證嗎（惱`;
     if (num < 0) return `(⑨)*(${demolish(num * -1)})`.replace(/\*\(1\)/g, "");
     if (!Number.isInteger(num)) {
       // abs(num) is definitely smaller than 2**51
@@ -24,7 +29,7 @@ const homo = (Nums => {
     const div = getMinDiv(num);
     return (`${div}*(${demolish(Math.floor(num / div))})+` + `(${demolish(num % div)})`).replace(/\*\(1\)|\+\(0\)$/g, "");
   };
-  //Finisher
+  // Format the final expression
   const finisher = expr => {
     expr = expr.replace(/\d+|⑨/g, n => Nums[n]).replace("^", "**");
     //As long as it matches ([\*|\/])\(([^\+\-\(\)]+)\), replace it with $1$2
@@ -564,5 +569,5 @@ const homo = (Nums => {
 });
 
 // Export the homo object
-var _default = exports.default = homo;
 module.exports = homo;
+module.exports.default = homo;
